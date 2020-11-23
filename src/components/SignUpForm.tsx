@@ -18,11 +18,11 @@ const SignUpForm: FunctionComponent = () => {
           </Form.Group>
           <Form.Group>
             <Form.Label>Password</Form.Label>
-            <Form.Control type="email" placeholder="Min 6 Characters" />
+            <Form.Control type="password" placeholder="Min 6 Characters" />
           </Form.Group>
           <Form.Group>
             <Form.Label>Confirm Password</Form.Label>
-            <Form.Control type="email" placeholder="Confirm password" />
+            <Form.Control type="password" placeholder="Confirm password" />
           </Form.Group>
           <Button className="mx-auto d-block" type="submit" variant="success">Register Account</Button>
         </Form>
