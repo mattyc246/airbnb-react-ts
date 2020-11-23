@@ -7,7 +7,7 @@ import { Layout, SignUpForm } from "../components"
 
 const SignUp: FunctionComponent = () => {
   return (
-    <Layout showFooter={true}>
+    <Layout showFooter={true} padded={false}>
       <Container fluid>
         <Row className="py-4">
           <Col lg={{span: 5, order: 2}}>

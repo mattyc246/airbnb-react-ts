@@ -41,7 +41,7 @@ const StyledCard = styled(Card)`
 const Home: FunctionComponent = () => {
   return (
     <>
-      <Layout showFooter={false}>
+      <Layout showFooter={false} padded={false}>
         <Content>
           <StyledRow className="h-100">
             <Col className="d-none d-lg-flex" lg={5} />

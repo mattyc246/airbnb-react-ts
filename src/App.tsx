@@ -8,7 +8,7 @@ import { Home, Dashboard, SignUp, Login } from './pages';
 function App() {
   return (
     <Switch>
-      <PublicRoute exact path="/" restricted={false} component={Home} />
+      <PublicRoute exact path="/" restricted={true} component={Home} />
       <PublicRoute path="/signup" restricted={true} component={SignUp} />
       <PublicRoute path="/login" restricted={true} component={Login} />
       <PrivateRoute path="/dashboard" component={Dashboard} />
