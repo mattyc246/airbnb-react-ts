@@ -7,7 +7,7 @@ import { Layout, LoginForm } from "../components"
 
 const Login = () => {
   return (
-    <Layout showFooter={true}>
+    <Layout showFooter={true} padded={false}>
       <Container fluid>
         <Row className="py-5">
           <Col lg={{span: 8, offset: 2}}>
