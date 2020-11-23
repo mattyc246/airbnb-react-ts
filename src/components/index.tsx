@@ -1,4 +1,5 @@
 import Layout from "./Layout"
 import LocationForm from "./LocationForm"
+import SignUpForm from "./SignUpForm"
 
-export {Layout, LocationForm}
+export {Layout, LocationForm, SignUpForm}
