@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useContext } from 'react'
 import { NavLink } from "react-router-dom"
-import isLogin from "../utils/isLogin"
+import { UserContext } from "../context/userContext"
 import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav"
 
 const Navigator: FunctionComponent = () => {
+  const { user } = useContext(UserContext)
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand as={NavLink} to="/">CloneBNB</Navbar.Brand>
@@ -12,7 +13,7 @@ const Navigator: FunctionComponent = () => {
       <Navbar.Collapse id="main-navi">
         <Nav className="ml-auto">
           {
-            isLogin()
+            user.isAuthenticated
             ? (
               <>
                 <Nav.Link as={NavLink} to="/listings">Listings</Nav.Link>

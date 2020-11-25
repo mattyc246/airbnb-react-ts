@@ -1,15 +1,16 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useContext } from "react";
+import { UserContext } from "../context/userContext"
 import {Route, Redirect, RouteComponentProps, RouteProps} from "react-router-dom";
-import isLogin from "../utils/isLogin"
 
 interface PrivateRouteProps extends RouteProps {
   component: FunctionComponent<RouteComponentProps>;
 }
 
 const PrivateRoute: FunctionComponent<PrivateRouteProps> = ({component: Component, ...rest}) => {
+  const { user } = useContext(UserContext)
   return(
     <Route {...rest} render={props => (
-      isLogin()
+      user.isAuthenticated
       ? <Component {...props} />
       : <Redirect to="/login" />
     )} />
