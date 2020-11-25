@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useContext } from 'react'
+import { UserContext } from "../context/userContext"
 import {Route, Redirect, RouteComponentProps, RouteProps} from "react-router-dom"
-import isLogin from "../utils/isLogin"
 
 interface PublicRouteProps extends RouteProps {
   component: FunctionComponent<RouteComponentProps>;
@@ -8,9 +8,10 @@ interface PublicRouteProps extends RouteProps {
 }
 
 const PublicRoute: FunctionComponent<PublicRouteProps> = ({component: Component, restricted, ...rest}) => {
+  const { user } = useContext(UserContext)
   return (
     <Route {...rest} render={props => (
-    isLogin() && restricted
+    user.isAuthenticated && restricted
     ? <Redirect to="/dashboard" />
     : <Component {...props} />
     )} />
