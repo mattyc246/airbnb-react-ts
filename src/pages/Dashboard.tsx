@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import Axios from "axios"
 import RightArrow from '../assets/images/arrow-right.png'
 import styled from 'styled-components'
 import Container from "react-bootstrap/Container"
@@ -8,6 +9,7 @@ import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
 import { Layout } from "../components"
 import { Link } from "react-router-dom"
+import { UserContext } from '../context/userContext'
 
 const StyledBody = styled(Card.Body)`
   display: flex;
@@ -21,9 +23,24 @@ const StyledBody = styled(Card.Body)`
 `
 
 const Dashboard = () => {
+  const { user, updateUser } = useContext(UserContext)
+
+  const handleLogout: any = () => {
+    Axios.post('http://localhost:3000/logout', {}, {
+      withCredentials: true
+    })
+    .then(() => {
+      updateUser({
+        fullName: '',
+        email: '',
+        isAuthenticated: false
+      })
+    })
+  }
+
   return (
     <Layout showFooter={false} padded={true}>
-      <h1 className="text-center my-4">Welcome back, {`{{Put name here}}`}!</h1>
+      <h1 className="text-center my-4">Welcome back, {user.fullName}!</h1>
       <Container>
         <Row className="justify-content-center">
           <Col className="my-4" lg={6}>
@@ -87,7 +104,7 @@ const Dashboard = () => {
             </Card>
           </Col>
         </Row>
-        <Button variant="danger" size="lg" block>Logout</Button>
+        <Button onClick={handleLogout} variant="danger" size="lg" block>Logout</Button>
       </Container>
     </Layout>
   )
