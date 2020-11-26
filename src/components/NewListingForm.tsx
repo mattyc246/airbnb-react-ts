@@ -1,7 +1,8 @@
-import React, { FormEvent, FunctionComponent, useState } from 'react'
+import React, { FormEvent, FunctionComponent, useContext, useState } from 'react'
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Axios from 'axios'
+import { ListingContext } from '../context/listingContext'
 
 interface ListingStateData {
   name: string;
@@ -21,6 +22,7 @@ const NewListingForm: FunctionComponent<Props> = ({ handleClose }: Props) => {
     price: 0,
     noOfGuests: 0
   })
+  const { fetchListings } = useContext(ListingContext)
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -36,6 +38,7 @@ const NewListingForm: FunctionComponent<Props> = ({ handleClose }: Props) => {
         price: 0,
         noOfGuests: 0
       })
+      fetchListings()
     })
     .catch((err) => {
       console.log(err.response)

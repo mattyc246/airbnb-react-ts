@@ -9,12 +9,27 @@ const Wrapper = styled.div`
   position: relative;
 `
 
+const LoaderContainer = styled.div`
+  width: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
+
+
 const WithLoader = ({children}: any) => {
   const { isLoading } = useContext(UserContext)
   return (
     <Wrapper>
       {
-        isLoading ? <Loader /> : children
+        isLoading
+          ? (
+              <LoaderContainer>
+                <Loader />
+              </LoaderContainer>
+            )
+          : children
       }
     </Wrapper>
   )
