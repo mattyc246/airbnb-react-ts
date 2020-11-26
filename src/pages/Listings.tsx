@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react'
+import React, { FunctionComponent, useContext, useEffect } from 'react'
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
@@ -7,9 +7,16 @@ import Button from "react-bootstrap/Button"
 import { Layout } from "../components"
 import NewListingModal from '../components/NewListingModal'
 import { UserContext } from '../context/userContext'
+import { ListingContext } from '../context/listingContext'
+import Loader from '../components/Loader'
 
 const Listings: FunctionComponent = () => {
   const { user } = useContext(UserContext)
+  const { listings, fetchListings, isLoadingListings } = useContext(ListingContext)
+
+  useEffect(() => {
+    fetchListings()
+  }, [])
 
   return (
     <Layout showFooter={true} padded={true}>
@@ -24,29 +31,43 @@ const Listings: FunctionComponent = () => {
           </Col>
           <Col lg={9}>
             {
-              user.isAuthenticated
-                ? <NewListingModal />
-                : ''
+              isLoadingListings
+                ? <Loader />
+                :(
+                  <>
+                    {
+                      user.isAuthenticated
+                        ? <NewListingModal />
+                        : ''
+                    }
+                    <Row>
+                      {
+                        listings.map((listing, idx) => {
+                          return(
+                            <Col key={`listing-${listing.id}`} xs={12} sm={6} xl={4}>
+                              <Card className="my-3 shadow-sm rounded">
+                                <Card.Img variant="top" src="https://i.picsum.photos/id/1001/5616/3744.jpg?hmac=38lkvX7tHXmlNbI0HzZbtkJ6_wpWyqvkX4Ty6vYElZE" />
+                                <Card.Body>
+                                  <Card.Title>{ listing.name }</Card.Title>
+                                  <Card.Subtitle className="my-2">{ listing.location }</Card.Subtitle>
+                                  <hr />
+                                  <Card.Text className="d-flex justify-content-between">
+                                    <span className="badge badge-info">${ listing.price / 100 } p/n</span>
+                                    <span className="badge badge-info">5.0 Rating</span>
+                                    <span className="badge badge-info">{ listing.noOfGuests } Guests</span>
+                                  </Card.Text>
+                                  <hr />
+                                  <Button variant="warning" block>Book Now</Button>
+                                </Card.Body>
+                              </Card>
+                            </Col>
+                          )
+                        })
+                      }
+                    </Row>
+                  </>
+                )
             }
-            <Row>
-              {
-                [1,2,3,4,5,6,7,8,9,10,11,12].map((key) => {
-                  return(
-                    <Col key={key} xs={12} sm={6} xl={3}>
-                      <Card className="my-3 shadow-sm rounded">
-                        <Card.Img variant="top" src="https://i.picsum.photos/id/1001/5616/3744.jpg?hmac=38lkvX7tHXmlNbI0HzZbtkJ6_wpWyqvkX4Ty6vYElZE" />
-                        <Card.Body>
-                          <Card.Title>Listing Name</Card.Title>
-                          <Card.Subtitle>Location</Card.Subtitle>
-                          <Card.Text>Price | Rating | Guest</Card.Text>
-                          <Button variant="info">Book Now</Button>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  )
-                })
-              }
-            </Row>
           </Col>
         </Row>
       </Container>

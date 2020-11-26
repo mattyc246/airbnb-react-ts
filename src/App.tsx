@@ -19,27 +19,31 @@ import {
 
 import {useUserContextValue, UserContext} from "./context/userContext"
 import WithLoader from './components/WithLoader';
+import { ListingContext, useListingContextValue } from './context/listingContext';
 
 function App() {
   const userContextValue = useUserContextValue()
+  const listingContextValue = useListingContextValue()
 
   return (
     <UserContext.Provider value={userContextValue}>
-      <WithLoader>
-        <Switch>
-          <PublicRoute exact path="/" restricted={true} component={Home} />
-          <PublicRoute path="/signup" restricted={true} component={SignUp} />
-          <PublicRoute path="/login" restricted={true} component={Login} />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
-          <PublicRoute exact path="/profile" restricted={false} component={Profile} />
-          <PrivateRoute exact path="/profile/manage" component={ManageProfile} />
-          <PublicRoute  path="/profile/:id" restricted={false} component={PublicProfile} />
-          <PublicRoute exact path="/listings" restricted={false} component={Listings} />
-          <PrivateRoute path="/listings/manage" component={ManageListings} />
-          <PrivateRoute exact path="/bookings" component={Bookings} />
-          <PrivateRoute path="/bookings/manage" component={ManageBookings} />
-        </Switch>
-      </WithLoader>
+      <ListingContext.Provider value={listingContextValue}>
+        <WithLoader>
+          <Switch>
+            <PublicRoute exact path="/" restricted={true} component={Home} />
+            <PublicRoute path="/signup" restricted={true} component={SignUp} />
+            <PublicRoute path="/login" restricted={true} component={Login} />
+            <PrivateRoute path="/dashboard" component={Dashboard} />
+            <PublicRoute exact path="/profile" restricted={false} component={Profile} />
+            <PrivateRoute exact path="/profile/manage" component={ManageProfile} />
+            <PublicRoute  path="/profile/:id" restricted={false} component={PublicProfile} />
+            <PublicRoute exact path="/listings" restricted={false} component={Listings} />
+            <PrivateRoute path="/listings/manage" component={ManageListings} />
+            <PrivateRoute exact path="/bookings" component={Bookings} />
+            <PrivateRoute path="/bookings/manage" component={ManageBookings} />
+          </Switch>
+        </WithLoader>
+      </ListingContext.Provider>
     </UserContext.Provider>
   );
 }
