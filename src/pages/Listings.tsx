@@ -1,12 +1,16 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useContext } from 'react'
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Card from "react-bootstrap/Card"
 import Button from "react-bootstrap/Button"
 import { Layout } from "../components"
+import NewListingModal from '../components/NewListingModal'
+import { UserContext } from '../context/userContext'
 
 const Listings: FunctionComponent = () => {
+  const { user } = useContext(UserContext)
+
   return (
     <Layout showFooter={true} padded={true}>
       <Container fluid>
@@ -19,6 +23,11 @@ const Listings: FunctionComponent = () => {
             </Card>
           </Col>
           <Col lg={9}>
+            {
+              user.isAuthenticated
+                ? <NewListingModal />
+                : ''
+            }
             <Row>
               {
                 [1,2,3,4,5,6,7,8,9,10,11,12].map((key) => {
