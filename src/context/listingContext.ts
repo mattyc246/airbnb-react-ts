@@ -1,15 +1,7 @@
 import Axios from "axios"
 import { createContext, useState } from "react"
-import { UserContextData } from "./userContext"
+import { Listing } from "../interfaces/Listing"
 
-export interface Listing {
-  id: number;
-  name: string;
-  location: string;
-  price: number;
-  noOfGuests: number;
-  user: UserContextData;
-}
 
 export interface ListingContextData {
   listings: Listing[];
