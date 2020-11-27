@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button"
 import { Layout } from '../components'
 import { ListingContext } from '../context/listingContext'
 import Loader from '../components/Loader'
+import Axios from 'axios'
 
 const ManageListings = () => {
   const { listings, fetchUserListings, isLoadingListings} = useContext(ListingContext)
@@ -15,6 +16,18 @@ const ManageListings = () => {
   useEffect(() => {
     fetchUserListings()
   }, [])
+
+  const handleDelete = (id: number) => {
+    Axios.delete(`http://localhost:3000/listings/${id}`, {
+      withCredentials: true
+    })
+    .then((res) => {
+      fetchUserListings()
+    })
+    .catch((err) => {
+      console.log(err.response)
+    })
+  }
 
   return (
     <Layout showFooter={true} padded={true}>
@@ -35,7 +48,7 @@ const ManageListings = () => {
                             <Card.Title>{ listing.name }</Card.Title>
                             <Button variant="info" block>See Bookings</Button>
                             <div className="my-3 d-flex justify-content-between">
-                              <Button variant="danger">Delete</Button>
+                              <Button variant="danger" onClick={() => handleDelete(listing.id)}>Delete</Button>
                               <Button variant="warning">Edit</Button>
                             </div>
                           </Card.Body>
