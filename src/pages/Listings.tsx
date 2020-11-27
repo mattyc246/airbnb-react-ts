@@ -16,7 +16,7 @@ const Listings: FunctionComponent = () => {
 
   useEffect(() => {
     fetchListings()
-  }, [])
+  }, [fetchListings])
 
   return (
     <Layout showFooter={true} padded={true}>

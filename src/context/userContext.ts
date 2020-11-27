@@ -1,11 +1,7 @@
 import Axios from "axios"
 import { createContext, useState, useEffect } from "react"
+import { User } from "../interfaces/User"
 
-export interface User {
-  fullName: string;
-  email: string;
-  isAuthenticated: boolean;
-}
 
 export interface UserContextData {
   user: User,

@@ -9,13 +9,14 @@ import { Layout } from '../components'
 import { ListingContext } from '../context/listingContext'
 import Loader from '../components/Loader'
 import Axios from 'axios'
+import EditListingModal from '../components/EditListingModal'
 
 const ManageListings = () => {
   const { listings, fetchUserListings, isLoadingListings} = useContext(ListingContext)
 
   useEffect(() => {
     fetchUserListings()
-  }, [])
+  }, [fetchUserListings])
 
   const handleDelete = (id: number) => {
     Axios.delete(`http://localhost:3000/listings/${id}`, {
@@ -49,7 +50,7 @@ const ManageListings = () => {
                             <Button variant="info" block>See Bookings</Button>
                             <div className="my-3 d-flex justify-content-between">
                               <Button variant="danger" onClick={() => handleDelete(listing.id)}>Delete</Button>
-                              <Button variant="warning">Edit</Button>
+                              <EditListingModal listing={listing} />
                             </div>
                           </Card.Body>
                         </Card>
