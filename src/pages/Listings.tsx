@@ -9,6 +9,7 @@ import NewListingModal from '../components/NewListingModal'
 import { UserContext } from '../context/userContext'
 import { ListingContext } from '../context/listingContext'
 import Loader from '../components/Loader'
+import { Link } from 'react-router-dom'
 
 const Listings: FunctionComponent = () => {
   const { user } = useContext(UserContext)
@@ -16,7 +17,7 @@ const Listings: FunctionComponent = () => {
 
   useEffect(() => {
     fetchListings()
-  }, [fetchListings])
+  }, [])
 
   return (
     <Layout showFooter={true} padded={true}>
@@ -43,25 +44,33 @@ const Listings: FunctionComponent = () => {
                     <Row>
                       {
                         listings.map((listing, idx) => {
-                          return(
-                            <Col key={`listing-${listing.id}`} xs={12} sm={6} xl={4}>
-                              <Card className="my-3 shadow-sm rounded">
-                                <Card.Img variant="top" src="https://i.picsum.photos/id/1001/5616/3744.jpg?hmac=38lkvX7tHXmlNbI0HzZbtkJ6_wpWyqvkX4Ty6vYElZE" />
-                                <Card.Body>
-                                  <Card.Title>{ listing.name }</Card.Title>
-                                  <Card.Subtitle className="my-2">{ listing.location }</Card.Subtitle>
-                                  <hr />
-                                  <Card.Text className="d-flex justify-content-between">
-                                    <span className="badge badge-info">${ listing.price / 100 } p/n</span>
-                                    <span className="badge badge-info">5.0 Rating</span>
-                                    <span className="badge badge-info">{ listing.noOfGuests } Guests</span>
-                                  </Card.Text>
-                                  <hr />
-                                  <Button variant="warning" block>Book Now</Button>
-                                </Card.Body>
-                              </Card>
-                            </Col>
-                          )
+                          if(listing.user.email !== user.email){
+                            return(
+                              <Col key={`listing-${listing.id}`} xs={12} sm={6} xl={4}>
+                                <Card className="my-3 shadow-sm rounded">
+                                  <Card.Img variant="top" src="https://i.picsum.photos/id/1001/5616/3744.jpg?hmac=38lkvX7tHXmlNbI0HzZbtkJ6_wpWyqvkX4Ty6vYElZE" />
+                                  <Card.Body>
+                                    <Card.Title>{ listing.name }</Card.Title>
+                                    <Card.Subtitle className="my-2">{ listing.location }</Card.Subtitle>
+                                    <hr />
+                                    <Card.Text className="d-flex justify-content-between">
+                                      <span className="badge badge-info">${ listing.price / 100 } p/n</span>
+                                      <span className="badge badge-info">5.0 Rating</span>
+                                      <span className="badge badge-info">{ listing.noOfGuests } Guests</span>
+                                    </Card.Text>
+                                    <hr />
+                                    <Button
+                                      as={Link}
+                                      to={`/listings/${listing.id}`}
+                                      variant="warning" block>
+                                        Book Now
+                                    </Button>
+                                  </Card.Body>
+                                </Card>
+                              </Col>
+                            )
+                            return ''
+                          }
                         })
                       }
                     </Row>

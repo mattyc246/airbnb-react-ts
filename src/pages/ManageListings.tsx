@@ -16,7 +16,7 @@ const ManageListings = () => {
 
   useEffect(() => {
     fetchUserListings()
-  }, [fetchUserListings])
+  }, [])
 
   const handleDelete = (id: number) => {
     Axios.delete(`http://localhost:3000/listings/${id}`, {
