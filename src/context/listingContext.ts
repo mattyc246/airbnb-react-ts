@@ -8,6 +8,7 @@ export interface ListingContextData {
   isLoadingListings: boolean;
   fetchUserListings: () => void;
   fetchListings: () => void;
+  fetchListingById: (id: string) => Listing | null;
 }
 
 export const listingContextDefaultValue: ListingContextData = {
@@ -15,6 +16,7 @@ export const listingContextDefaultValue: ListingContextData = {
   isLoadingListings: false,
   fetchUserListings: () => null,
   fetchListings: () => null,
+  fetchListingById: () => null
 }
 
 export const useListingContextValue = (): ListingContextData => {
@@ -45,11 +47,17 @@ export const useListingContextValue = (): ListingContextData => {
     })
   }
 
+  const fetchListingById = (id: string) => {
+    const listing = listings.filter(listing => listing.id === parseInt(id))[0]
+    return listing
+  }
+
   return {
     listings,
     isLoadingListings,
     fetchListings,
-    fetchUserListings
+    fetchUserListings,
+    fetchListingById
   }
 }
 

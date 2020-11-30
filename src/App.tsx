@@ -20,6 +20,7 @@ import {
 import {useUserContextValue, UserContext} from "./context/userContext"
 import WithLoader from './components/WithLoader';
 import { ListingContext, useListingContextValue } from './context/listingContext';
+import BookListing from './pages/BookListing';
 
 function App() {
   const userContextValue = useUserContextValue()
@@ -38,7 +39,8 @@ function App() {
             <PrivateRoute exact path="/profile/manage" component={ManageProfile} />
             <PublicRoute  path="/profile/:id" restricted={false} component={PublicProfile} />
             <PublicRoute exact path="/listings" restricted={false} component={Listings} />
-            <PrivateRoute path="/listings/manage" component={ManageListings} />
+            <PrivateRoute exact path="/listings/manage" component={ManageListings} />
+            <PrivateRoute path="/listings/:id" component={BookListing} />
             <PrivateRoute exact path="/bookings" component={Bookings} />
             <PrivateRoute path="/bookings/manage" component={ManageBookings} />
           </Switch>
