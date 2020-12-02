@@ -10,6 +10,7 @@ import { Booking } from '../interfaces/Booking'
 
 const Bookings: FunctionComponent = () => {
   const [bookings, setBookings] = useState<Booking[]>([])
+  const [bookingType, setBookingType] = useState<string>('personal')
 
   const handleFetchMyBookings = () => {
     Axios.get('http://localhost:3000/bookings/me', {
@@ -17,6 +18,20 @@ const Bookings: FunctionComponent = () => {
     })
     .then((res) => {
       setBookings(res.data)
+      setBookingType('personal')
+    })
+    .catch((err) => {
+      console.log(err.response)
+    })
+  }
+
+  const handleFetchMyListingsBookings = () => {
+    Axios.get('http://localhost:3000/bookings/listings/me', {
+      withCredentials: true
+    })
+    .then((res) => {
+      setBookings(res.data)
+      setBookingType('listings')
     })
     .catch((err) => {
       console.log(err.response)
@@ -28,7 +43,11 @@ const Bookings: FunctionComponent = () => {
       withCredentials: true
     })
     .then((res) => {
-      handleFetchMyBookings()
+      if(bookingType === 'personal'){
+        handleFetchMyBookings()
+      } else {
+        handleFetchMyListingsBookings()
+      }
     })
     .catch((err) => {
       console.log(err.response)
@@ -52,7 +71,7 @@ const Bookings: FunctionComponent = () => {
                 <hr/>
                 <h5>Choose listings or bookings:</h5>
                 <div className="d-flex justify-content-between">
-                  <Button variant="dark">My Listings</Button>
+                  <Button variant="dark" onClick={handleFetchMyListingsBookings}>My Listings</Button>
                   <Button variant="info" onClick={handleFetchMyBookings}>My Bookings</Button>
                 </div>
               </Card.Body>
@@ -85,7 +104,11 @@ const Bookings: FunctionComponent = () => {
                                 booking.paymentStatus === 'pending'
                                   ? (
                                     <>
-                                      <Button variant="warning">Pay Now</Button>
+                                      {
+                                        bookingType === 'personal'
+                                          ? <Button variant="warning">Pay Now</Button>
+                                          : ''
+                                      }
                                       <Button variant="danger" onClick={() => handleCancellation(booking.id)}>Cancel</Button>
                                     </>
                                   )
